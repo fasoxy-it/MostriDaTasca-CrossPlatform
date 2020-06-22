@@ -1,0 +1,1327 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#FFFFFF; /*#E4E4E4*/
+    /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+    );*/
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    text-transform:uppercase;
+    width:100%;
+}
+
+/* Portrait layout (default) */
+.app {
+    background:url(../img/mostri_da_tasca.png) no-repeat center top; /* 170px x 200px */
+    position:absolute;             /* position in the center of the screen */
+    left:50%;
+    top:50%;
+    height:50px;                   /* text area height */
+    width:225px;                   /* text area width */
+    text-align:center;
+    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+}
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+    .app {
+        background-position:left center;
+        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
+        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+                                      /* offset horizontal: half of image width and text area width */
+    }
+}
+
+h1 {
+    font-size:24px;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+}
+
+.event {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#4B946A;
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+/* CUSTOM CSS */
+
+body {
+    padding: 0;
+    margin: 0; 
+}
+
+/* SMARTPHONE: PIXEL 3 */
+
+@media (max-width:400px) {
+
+    /* MOSTRI DA TASCA*/
+
+    #mostridatasca {
+        position: absolute;
+        top: 278px;
+        left: 121px;
+    }
+
+    /* MAP */
+
+    #map {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 393px;
+        height: 786px;
+    }
+
+    .mapboxgl-ctrl-bottom-left {
+        display: none !important;
+    }
+
+    .mapboxgl-ctrl-bottom-right {
+        display: none !important;
+    }
+
+    .marker {
+        display: block;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* REGISTER */
+
+    #register-button {
+        position: absolute;
+        z-index: 2;
+        top: 338px;
+        left: 122px;
+        width: 150px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #register-button-text {
+        position: absolute;
+        top: 12px;
+        left: 24px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        text-align: center;
+    }
+
+    /* LOGIN */
+
+    #login-user-image {
+        position: absolute;
+        top: 80px;
+        left: 47px;
+        width: 300px;
+        height: 300px;
+    }
+
+    #login-user-name {
+        position: absolute;
+        top: 420px;
+        left: 47px;
+        width: 300px;
+        height: 40px;
+        border: 1px solid #707070;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        text-align: center;
+    }
+
+    #login-button {
+        position: absolute;
+        top: 505px;
+        left: 122px;
+        width: 150px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #login-button-text {
+        position: absolute;
+        top: 12px;
+        left: 44px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        text-align: center;
+    }
+
+    /* MAIN ACTIVITY */
+
+    #main-user {
+        position: absolute;
+        z-index: 2;
+        top: 624px;
+        left: 10px;
+        width: 297px;
+        height: 80px;
+        border: 1px solid #707070;
+        border-radius: 15px 0px 0px 15px;
+        background-color: #FFFFFF;
+    }
+
+    #main-user-image {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 60px;
+        height: 60px;
+    }
+
+    #main-user-name {
+        position: absolute;
+        top: 10px;
+        left: 90px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #main-xp-icon {
+        position: absolute;
+        top: 38px;
+        left: 91px;
+        width: 19.5px;
+        height: 11.5px;
+    }
+
+    #main-user-xp {
+        position: absolute;
+        top: 35px;
+        left: 122px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #main-lifepoints-icon {
+        position: absolute;
+        top: 53px;
+        left: 91px;
+        width: 18px;
+        height: 16.5px;
+    }
+
+    #main-user-lifepoints {
+        position: absolute;
+        top: 59px;
+        left: 122px;
+        width: 160px;
+        height: 5px;
+        background-color: #707070;
+    }
+
+    #main-ranking {
+        position: absolute;
+        z-index: 2;
+        top: 624px;
+        left: 307px;
+        width: 76px;
+        height: 80px;
+        border: 1px solid #707070;
+        border-left: 0px;
+        border-radius: 0px 15px 15px 0px;
+        background-color: #FFFFFF;
+    }
+
+    #main-ranking-icon {
+        position: absolute;
+        top: 20px;
+        left: 18px;
+        width: 40px;
+        height: 40px;
+    }
+
+    /* POPUP */
+
+    #popup {
+        position: absolute;
+        z-index: 2;
+        top: 338px;
+        left: 197px;
+        display: none;
+        width: 240px;
+        height: 300px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+        transform: translate(-50%, -50%) scale(1);
+        transition: 200ms ease-in-out;
+    }
+
+    #popup-back-button-icon {
+        position: absolute;
+        top: 15px;
+        left: 202px;
+        width: 20px;
+        height: 20px;
+    }
+
+    #popup-monstercandy-image {
+        position: absolute;
+        top: 30px;
+        left: 70px;
+        width: 100px;
+        height: 100px;  
+    }
+
+    #popup-monstercandy-name {
+        position: absolute;
+        top: 150px;
+        left: 0px;
+        width: 238px;
+        font-family: Helvetica;
+        font-size: 110%;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #popup-level-icon {
+        position: absolute;
+        top: 185px;
+        left: 90px;
+        width: 18px;
+        height: 18px;
+    }
+
+    #popup-monstercandy-size {
+        position: absolute;
+        top: 184px;
+        left: 121px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #popup-range-icon {
+        position: absolute;
+        top: 210px;
+        left: 90px;
+        width: 18px;
+        height: 18px;
+    }
+
+    #popup-monstercandy-range {
+        position: absolute;
+        top: 210px;
+        left: 121px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #popup-fighteat-button {
+        position: absolute;
+        top: 250px;
+        left: 70px;
+        width: 100px;
+        height: 30px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #popup-fighteat-button-icon {
+        position: absolute;
+        z-index: 1;
+        top: 4px;
+        left: 39px; 
+        width: 20px;
+        height: 20px;
+    }
+
+    /* RESULT POPUP*/
+
+    #result-popup {
+        position: absolute;
+        z-index: 2;
+        top: 338px;
+        left: 197px;
+        display: none;
+        width: 200px;
+        height: 170px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+        transform: translate(-50%, -50%) scale(1);
+        transition: 200ms ease-in-out;
+    }
+
+    #result-popup-victory {
+        position: absolute;
+        top: 25px;
+        left: 56px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #result-popup-defeat {
+        position: absolute;
+        top: 25px;
+        left: 61px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #result-popup-eaten {
+        position: absolute;
+        top: 25px;
+        left: 67px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #result-popup-xp-icon {
+        position: absolute;
+        top: 64px;
+        left: 70px;
+        width: 18px;
+        height: 11px;
+    }
+
+    #result-popup-user-xp {
+        position: absolute;
+        top: 60px;
+        left: 100px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #result-popup-lifepoints-icon {
+        position: absolute;
+        top: 82px;
+        left: 70px;
+        width: 18px;
+        height: 16px;
+    }
+
+    #result-popup-user-lifepoints {
+        position: absolute;
+        top: 80px;
+        left: 100px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #result-popup-back-button {
+        position: absolute;
+        top: 120px;
+        left: 60px;
+        width: 80px;
+        height: 30px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #result-popup-back-button-icon {
+        position: absolute;
+        z-index: 1;
+        top: 4px;
+        left: 29px; 
+        width: 20px;
+        height: 20px;
+    }
+
+    /* PROFILE */
+
+    #profile-user-image {
+        position: absolute;
+        top: 80px;
+        left: 47px;
+        width: 300px;
+        height: 300px;
+    }
+
+    #profile-user-name {
+        position: absolute;
+        top: 420px;
+        left: 47px;
+        width: 262px;
+        height: 40px;
+        border: 1px solid #707070;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+    }
+
+    #profile-modify-icon {
+        position: absolute;
+        top: 420px;
+        left: 314px;
+        width: 36px;
+        height: 36px;
+    }
+
+    #profile-xp-icon {
+        position: absolute;
+        top: 508px;
+        left: 47px;
+        width: 32px;
+        height: 18.82px;
+    }
+
+    #profile-user-xp {
+        position: absolute;
+        top: 506px;
+        left: 109px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+    }
+
+    #profile-lifepoints-icon {
+        position: absolute;
+        top: 549px;
+        left: 47px;
+        width: 32px;
+        height: 29.63px;
+    }
+
+    #profile-user-lifepoints {
+        position: absolute;
+        top: 562px;
+        left: 109px;
+        width: 236px;
+        height: 10px;
+        background-color: #707070;
+    }
+
+    #profile-back-button {
+        position: absolute;
+        top: 636px;
+        left: 172px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 50px;
+        background-color: #FFFFFF;
+    }
+
+    #profile-back-button-icon {
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* RANKING */
+
+    #ranking {
+        display: none;
+    }
+
+    ul {
+        padding: 0px;
+        margin: 0px;
+        width: 393px;
+        height: 614px;
+        overflow: scroll;
+        list-style-type: none;
+        list-style-position: inside;
+    }
+
+    li {
+        width: 373px;
+        height: 80px;
+        margin-top: 10px;
+        margin-left: 10px;
+        border-radius: 15px;
+        border: 1px solid #707070;
+        background-color: #FFFFFF;
+    }
+
+    #ranking-user {
+        position: relative;
+    }
+
+    #ranking-position {
+        position: absolute;
+        top: 25px;
+        left: 30px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #ranking-divider {
+        position: absolute;
+        top: 0px;
+        left: 75px;
+        width: 0px;
+        height: 78px;
+        border-left: 1px solid #707070;
+    }
+
+    #ranking-user-image {
+        position: absolute;
+        top: 10px;
+        left: 90px;
+        width: 60px;
+        height: 60px;
+    }
+
+    #ranking-user-name {
+        position: absolute;
+        top: 10px;
+        left: 165px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #ranking-xp-icon {
+        position: absolute;
+        top: 38px;
+        left: 165px;
+        width: 19.5px;
+        height: 11.5px;
+    }
+
+    #ranking-user-xp {
+        position: absolute;
+        top: 35px;
+        left: 196px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #ranking-lifepoints-icon {
+        position: absolute;
+        top: 53px;
+        left: 165px;
+        width: 18px;
+        height: 16.5px;
+    }
+
+    #ranking-user-lifepoints {
+        position: absolute;
+        top: 59px;
+        left: 196px;
+        width: 160px;
+        height: 5px;
+        background-color: #707070;
+    }
+
+    #ranking-back-button {
+        position: fixed;
+        z-index: 1;
+        top: 636px;
+        left: 172px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 50px;
+        background-color: #FFFFFF;
+    }
+
+    #ranking-back-button-icon {
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* TABLET: NEXUS 9 */
+
+@media (min-width:400px) {
+
+    /* MOSTRI DA TASCA*/
+
+    #mostridatasca {
+        position: absolute;
+        top: 269px;
+        left: 437px;
+    }
+
+    /* MAP */
+
+    #map {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 1024px;
+        height: 768px;
+    }
+
+    .mapboxgl-ctrl-bottom-left {
+        display: none !important;
+    }
+
+    .mapboxgl-ctrl-bottom-right {
+        display: none !important;
+    }
+
+    .marker {
+        display: block;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* REGISTER */
+
+    #register-button {
+        position: absolute;
+        z-index: 2;
+        top: 359px;
+        left: 437px;
+        width: 150px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #register-button-text {
+        position: absolute;
+        top: 12px;
+        left: 24px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        text-align: center;
+    }
+
+    /* LOGIN */
+
+    #login-user-image {
+        position: absolute;
+        top: 44px;
+        left: 50px;
+        width: 600px;
+        height: 600px;
+    }
+
+    #login-user-name {
+        position: absolute;
+        top: 277px;
+        left: 712px;
+        width: 250px;
+        height: 40px;
+        border: 1px solid #707070;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        text-align: center;
+    }
+
+    #login-button {
+        position: absolute;
+        top: 362px;
+        left: 762px;
+        width: 150px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #login-button-text {
+        position: absolute;
+        top: 12px;
+        left: 44px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        text-align: center;
+    }
+
+    /* MAIN ACTIVITY */
+
+    #main-user {
+        position: absolute;
+        z-index: 2;
+        top: 574px;
+        left: 326px;
+        width: 297px;
+        height: 80px;
+        border: 1px solid #707070;
+        border-radius: 15px 0px 0px 15px;
+        background-color: #FFFFFF;
+    }
+
+    #main-user-image {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 60px;
+        height: 60px;
+    }
+
+    #main-user-name {
+        position: absolute;
+        top: 10px;
+        left: 90px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #main-xp-icon {
+        position: absolute;
+        top: 38px;
+        left: 91px;
+        width: 19.5px;
+        height: 11.5px;
+    }
+
+    #main-user-xp {
+        position: absolute;
+        top: 35px;
+        left: 122px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #main-lifepoints-icon {
+        position: absolute;
+        top: 53px;
+        left: 91px;
+        width: 18px;
+        height: 16.5px;
+    }
+
+    #main-user-lifepoints {
+        position: absolute;
+        top: 59px;
+        left: 122px;
+        width: 160px;
+        height: 5px;
+        background-color: #707070;
+    }
+
+    #main-ranking {
+        position: absolute;
+        z-index: 2;
+        top: 574px;
+        left: 623px;
+        width: 76px;
+        height: 80px;
+        border: 1px solid #707070;
+        border-left: 0px;
+        border-radius: 0px 15px 15px 0px;
+        background-color: #FFFFFF;
+    }
+
+    #main-ranking-icon {
+        position: absolute;
+        top: 20px;
+        left: 18px;
+        width: 40px;
+        height: 40px;
+    }
+
+    /* POPUP */
+
+    #popup {
+        position: absolute;
+        z-index: 2;
+        top: 304px;
+        left: 512px;
+        display: none;
+        width: 240px;
+        height: 300px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+        transform: translate(-50%, -50%) scale(1);
+        transition: 200ms ease-in-out;
+    }
+
+    #popup-back-button-icon {
+        position: absolute;
+        top: 15px;
+        left: 202px;
+        width: 20px;
+        height: 20px;
+    }
+
+    #popup-monstercandy-image {
+        position: absolute;
+        top: 30px;
+        left: 70px;
+        width: 100px;
+        height: 100px;  
+    }
+
+    #popup-monstercandy-name {
+        position: absolute;
+        top: 150px;
+        left: 0px;
+        width: 238px;
+        font-family: Helvetica;
+        font-size: 110%;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #popup-level-icon {
+        position: absolute;
+        top: 185px;
+        left: 90px;
+        width: 18px;
+        height: 18px;
+    }
+
+    #popup-monstercandy-size {
+        position: absolute;
+        top: 184px;
+        left: 121px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #popup-range-icon {
+        position: absolute;
+        top: 210px;
+        left: 90px;
+        width: 18px;
+        height: 18px;
+    }
+
+    #popup-monstercandy-range {
+        position: absolute;
+        top: 210px;
+        left: 121px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #popup-fighteat-button {
+        position: absolute;
+        top: 250px;
+        left: 70px;
+        width: 100px;
+        height: 30px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #popup-fighteat-button-icon {
+        position: absolute;
+        z-index: 1;
+        top: 4px;
+        left: 39px; 
+        width: 20px;
+        height: 20px;
+    }
+
+    /* RESULT POPUP*/
+
+    #result-popup {
+        position: absolute;
+        z-index: 2;
+        top: 304px;
+        left: 512px;
+        display: none;
+        width: 200px;
+        height: 170px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+        transform: translate(-50%, -50%) scale(1);
+        transition: 200ms ease-in-out;
+    }
+
+    #result-popup-victory {
+        position: absolute;
+        top: 25px;
+        left: 56px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #result-popup-defeat {
+        position: absolute;
+        top: 25px;
+        left: 61px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #result-popup-eaten {
+        position: absolute;
+        top: 25px;
+        left: 67px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #result-popup-xp-icon {
+        position: absolute;
+        top: 64px;
+        left: 70px;
+        width: 18px;
+        height: 11px;
+    }
+
+    #result-popup-user-xp {
+        position: absolute;
+        top: 60px;
+        left: 100px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #result-popup-lifepoints-icon {
+        position: absolute;
+        top: 82px;
+        left: 70px;
+        width: 18px;
+        height: 16px;
+    }
+
+    #result-popup-user-lifepoints {
+        position: absolute;
+        top: 80px;
+        left: 100px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #result-popup-back-button {
+        position: absolute;
+        top: 120px;
+        left: 60px;
+        width: 80px;
+        height: 30px;
+        border: 1px solid #707070;
+        border-radius: 15px;
+        background-color: #FFFFFF;
+    }
+
+    #result-popup-back-button-icon {
+        position: absolute;
+        z-index: 1;
+        top: 4px;
+        left: 29px; 
+        width: 20px;
+        height: 20px;
+    }
+
+    /* PROFILE */
+
+    #profile-user-image {
+        position: absolute;
+        top: 50px;
+        left: 44px;
+        width: 600px;
+        height: 600px;
+    }
+
+    #profile-user-name {
+        position: absolute;
+        top: 265px;
+        left: 688px;
+        width: 262px;
+        height: 40px;
+        border: 1px solid #707070;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+    }
+
+    #profile-modify-icon {
+        position: absolute;
+        top: 265px;
+        left: 950px;
+        width: 36px;
+        height: 36px;
+    }
+
+    #profile-xp-icon {
+        position: absolute;
+        top: 353px;
+        left: 688px;
+        width: 32px;
+        height: 18.82px;
+    }
+
+    #profile-user-xp {
+        position: absolute;
+        top: 351px;
+        left: 750px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+    }
+
+    #profile-lifepoints-icon {
+        position: absolute;
+        top: 394px;
+        left: 688px;
+        width: 32px;
+        height: 29.63px;
+    }
+
+    #profile-user-lifepoints {
+        position: absolute;
+        top: 407px;
+        left: 750px;
+        width: 236px;
+        height: 10px;
+        background-color: #707070;
+    }
+
+    #profile-back-button {
+        position: absolute;
+        top: 511px;
+        left: 813px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 50px;
+        background-color: #FFFFFF;
+    }
+
+    #profile-back-button-icon {
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* RANKING */
+
+    #ranking {
+        display: none;
+    }
+
+    ul {
+        padding: 0px;
+        margin-left: 326px;
+        width: 393px;
+        height: 614px;
+        overflow: scroll;
+        list-style-type: none;
+        list-style-position: inside;
+    }
+
+    li {
+        width: 373px;
+        height: 80px;
+        margin-top: 10px;
+        margin-left: 10px;
+        border-radius: 15px;
+        border: 1px solid #707070;
+        background-color: #FFFFFF;
+    }
+
+    #ranking-user {
+        position: relative;
+    }
+
+    #ranking-position {
+        position: absolute;
+        top: 25px;
+        left: 30px;
+        font-family: Helvetica;
+        font-size: 20px;
+        text-transform: none;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #ranking-divider {
+        position: absolute;
+        top: 0px;
+        left: 75px;
+        width: 0px;
+        height: 78px;
+        border-left: 1px solid #707070;
+    }
+
+    #ranking-user-image {
+        position: absolute;
+        top: 10px;
+        left: 90px;
+        width: 60px;
+        height: 60px;
+    }
+
+    #ranking-user-name {
+        position: absolute;
+        top: 10px;
+        left: 165px;
+        font-family: Helvetica;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: none;
+    }
+
+    #ranking-xp-icon {
+        position: absolute;
+        top: 38px;
+        left: 165px;
+        width: 19.5px;
+        height: 11.5px;
+    }
+
+    #ranking-user-xp {
+        position: absolute;
+        top: 35px;
+        left: 196px;
+        font-family: Helvetica;
+        font-size: 15px;
+        text-transform: none;
+    }
+
+    #ranking-lifepoints-icon {
+        position: absolute;
+        top: 53px;
+        left: 165px;
+        width: 18px;
+        height: 16.5px;
+    }
+
+    #ranking-user-lifepoints {
+        position: absolute;
+        top: 59px;
+        left: 196px;
+        width: 160px;
+        height: 5px;
+        background-color: #707070;
+    }
+
+    #ranking-back-button {
+        position: fixed;
+        z-index: 1;
+        top: 636px;
+        left: 498px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #707070;
+        border-radius: 50px;
+        background-color: #FFFFFF;
+    }
+
+    #ranking-back-button-icon {
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+
+
+
+
+
